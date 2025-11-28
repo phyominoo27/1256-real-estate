@@ -1,6 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Home, Key, MapPin, Search, Star, Phone, Mail, Instagram, Facebook, Twitter } from 'lucide-react';
 
+// Custom Modern Logo Component with Color Design
+const Logo = ({ className, isDark }) => (
+  <div className={`flex items-center gap-2 ${className}`}>
+    {/* Icon with colored styling */}
+    <div className={`relative w-10 h-10 flex items-center justify-center rounded-tr-xl rounded-bl-xl border-2 transition-all duration-300 ${
+      isDark 
+        ? 'border-amber-600 text-amber-600 bg-amber-50' 
+        : 'border-amber-400 text-amber-400 bg-black/30 backdrop-blur-sm'
+    }`}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+        <path d="M3 21h18" />
+        <path d="M5 21V7l8-4 8 4v14" />
+        <path d="M9 21v-5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v5" />
+      </svg>
+    </div>
+    
+    {/* Text with two-tone design */}
+    <span className={`text-2xl font-bold tracking-tighter transition-colors duration-300 ${
+      isDark ? 'text-slate-900' : 'text-white'
+    }`}>
+      12<span className={`${isDark ? 'text-amber-600' : 'text-amber-400'}`}>56</span>
+    </span>
+  </div>
+);
+
 const RealEstateLanding = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -58,11 +83,9 @@ const RealEstateLanding = () => {
       {/* Navigation */}
       <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-sm shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className={`text-2xl font-bold tracking-tighter border-2 px-2 py-1 ${scrolled ? 'border-black text-black' : 'border-white text-white'}`}>
-              1256
-            </div>
-          </div>
+          
+          {/* Logo */}
+          <Logo isDark={scrolled} />
 
           {/* Desktop Menu */}
           <div className={`hidden md:flex items-center gap-8 ${scrolled ? 'text-slate-600' : 'text-white/90'}`}>
@@ -107,11 +130,11 @@ const RealEstateLanding = () => {
 
         <div className="container mx-auto px-6 relative z-10 text-center text-white mt-16">
           <p className="text-sm md:text-base tracking-[0.3em] uppercase mb-4 text-amber-400 font-medium">Est. 2025</p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-tight">
-            Curated Living <br /> for the Modern Era.
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-6 leading-tight">
+            12<span className="text-amber-400">56</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light">
-            1256 Real Estate bridges the gap between architectural masterpiece and the place you call home.
+            Bridging the gap between architectural masterpiece and the place you call home.
           </p>
           
           <div className="bg-white/10 backdrop-blur-md p-2 rounded-full max-w-2xl mx-auto flex flex-col md:flex-row gap-2 border border-white/20">
@@ -266,9 +289,7 @@ const RealEstateLanding = () => {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div className="md:col-span-1">
-              <div className="text-3xl font-bold tracking-tighter border-2 border-black inline-block px-2 py-1 mb-6">
-                1256
-              </div>
+              <Logo isDark={true} className="mb-6" />
               <p className="text-slate-500 mb-6">
                 Redefining modern real estate with integrity, style, and exclusive market access.
               </p>
