@@ -289,16 +289,17 @@ const RealEstateLanding = () => {
             {t.hero.subtitle}
           </p>
           
-          <div className="bg-white/10 backdrop-blur-md p-2 rounded-full max-w-2xl mx-auto flex flex-col md:flex-row gap-2 border border-white/20">
-            <div className="flex-1 flex items-center px-4 h-12 md:h-auto bg-white/90 rounded-full md:rounded-l-full md:rounded-r-none">
-              <MapPin size={18} className="text-slate-500 mr-2" />
+          {/* UPDATED SEARCH BAR FOR MOBILE */}
+          <div className="bg-white/10 backdrop-blur-md p-2 rounded-2xl md:rounded-full max-w-2xl mx-auto flex flex-col md:flex-row gap-2 border border-white/20">
+            <div className="flex-1 flex items-center px-4 h-12 md:h-auto rounded-xl md:rounded-l-full md:rounded-r-none transition-all">
+              <MapPin size={18} className="text-gray-300 mr-2" />
               <input 
                 type="text" 
                 placeholder={t.hero.placeholder}
-                className="bg-transparent w-full outline-none text-slate-800 placeholder:text-slate-500"
+                className="bg-transparent w-full outline-none text-white placeholder:text-gray-300 h-full"
               />
             </div>
-            <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-8 py-3 rounded-full transition-all flex items-center justify-center gap-2">
+            <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 h-12 md:h-auto md:py-2 rounded-xl md:rounded-full transition-all flex items-center justify-center gap-2">
               <Search size={18} />
               <span>{t.hero.search}</span>
             </button>
