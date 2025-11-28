@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, ArrowLeft, Home, Key, MapPin, Search, Star, Phone, Mail, Instagram, Facebook, Twitter, Globe, Filter, Bed, Bath, Move, CheckCircle, Calendar, Clock } from 'lucide-react';
+import { Menu, X, ArrowRight, ArrowLeft, Home, Key, MapPin, Search, Star, Phone, Mail, Instagram, Facebook, Twitter, Globe, Filter, Bed, Bath, Move, CheckCircle, Calendar, Clock, ChevronDown } from 'lucide-react';
 
 // --- DATA & TRANSLATIONS ---
 
@@ -240,6 +240,7 @@ const RealEstateLanding = () => {
   const [view, setView] = useState('home'); // 'home', 'listings', 'detail', 'contact'
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState('en');
   
@@ -259,8 +260,6 @@ const RealEstateLanding = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [view, selectedProperty]);
-
-  const toggleLang = () => setLang(prev => prev === 'en' ? 'mm' : 'en');
   
   const handlePropertyClick = (property) => {
     setSelectedProperty(property);
@@ -292,10 +291,31 @@ const RealEstateLanding = () => {
           <button onClick={() => setView('listings')} className="hover:text-amber-500 transition-colors">{t.nav.properties}</button>
           <button onClick={() => setView('home')} className="hover:text-amber-500 transition-colors">{t.nav.services}</button>
           
-          <button onClick={toggleLang} className={`flex items-center gap-1 font-medium px-3 py-1 rounded-full border ${scrolled || forceDark ? 'border-slate-300 hover:bg-slate-100' : 'border-white/30 hover:bg-white/10'} transition-all`}>
-            <Globe size={16} />
-            <span className="text-sm">{lang === 'en' ? 'EN' : 'မြန်မာ'}</span>
-          </button>
+          {/* DESKTOP LANGUAGE DROPDOWN */}
+          <div className="relative">
+            <button 
+              onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)} 
+              className={`flex items-center gap-1 font-medium px-3 py-1 rounded-full border ${scrolled || forceDark ? 'border-slate-300 hover:bg-slate-100' : 'border-white/30 hover:bg-white/10'} transition-all`}
+            >
+              <Globe size={16} />
+              <span className="text-sm">{lang === 'en' ? 'EN' : 'မြန်မာ'}</span>
+              <ChevronDown size={14} />
+            </button>
+            
+            {isLangDropdownOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsLangDropdownOpen(false)}></div>
+                <div className="absolute top-full right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-slate-100 py-2 overflow-hidden z-50">
+                  <button onClick={() => { setLang('en'); setIsLangDropdownOpen(false); }} className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50 text-slate-700 flex justify-between items-center">
+                    English {lang === 'en' && <CheckCircle size={14} className="text-amber-500"/>}
+                  </button>
+                  <button onClick={() => { setLang('mm'); setIsLangDropdownOpen(false); }} className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50 text-slate-700 font-burmese flex justify-between items-center">
+                    မြန်မာ {lang === 'mm' && <CheckCircle size={14} className="text-amber-500"/>}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
 
           <button onClick={() => setView('contact')} className={`px-5 py-2 rounded-full font-medium transition-all ${scrolled || forceDark ? 'bg-black text-white hover:bg-slate-800' : 'bg-white text-black hover:bg-slate-200'}`}>
             {t.nav.book}
@@ -303,9 +323,21 @@ const RealEstateLanding = () => {
         </div>
 
         <div className="flex items-center gap-4 md:hidden">
-          <button onClick={toggleLang} className={`flex items-center gap-1 font-medium px-2 py-1 rounded-full border ${scrolled || forceDark ? 'border-slate-300 text-slate-900' : 'border-white/30 text-white'} transition-all`}>
+          {/* MOBILE LANGUAGE SELECTOR */}
+          <div className={`relative flex items-center gap-1 font-medium px-2 py-1 rounded-full border ${scrolled || forceDark ? 'border-slate-300 text-slate-900' : 'border-white/30 text-white'} transition-all`}>
+            <Globe size={14} />
             <span className="text-xs font-bold">{lang === 'en' ? 'EN' : 'မြန်မာ'}</span>
-          </button>
+            <ChevronDown size={12} />
+            <select 
+              value={lang} 
+              onChange={(e) => setLang(e.target.value)} 
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            >
+              <option value="en">English</option>
+              <option value="mm">Myanmar (မြန်မာ)</option>
+            </select>
+          </div>
+
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={` ${scrolled || forceDark ? 'text-black' : 'text-white'}`}>
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -432,7 +464,7 @@ const RealEstateLanding = () => {
           <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{t.cta.subheading}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button onClick={() => setView('listings')} className="bg-amber-500 text-black px-8 py-4 rounded-lg font-bold hover:bg-amber-400 transition-colors">{t.cta.btn_view}</button>
-            <button onClick={() => { setView('home'); setTimeout(() => document.getElementById('contact')?.scrollIntoView(), 100); }} className="border border-slate-600 px-8 py-4 rounded-lg font-bold hover:bg-slate-800 transition-colors">{t.cta.btn_contact}</button>
+            <button onClick={() => setView('contact')} className="border border-slate-600 px-8 py-4 rounded-lg font-bold hover:bg-slate-800 transition-colors">{t.cta.btn_contact}</button>
           </div>
         </div>
       </section>
